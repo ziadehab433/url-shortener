@@ -36,11 +36,13 @@ func (s *server) HandleShorten(w http.ResponseWriter, r *http.Request) {
 	`, url)
 	if err != nil {
 		slog.Warn("coudln't insert url: " + url + " into db " + err.Error())
+		return 
 	}
 
 	id, err := res.LastInsertId()
 	if err != nil {
 		slog.Warn("couldn't fetch last inserted's id " + err.Error())
+		return
 	}
 
 	newUrl := address + "/" + string(b62.FormatInt(id))
